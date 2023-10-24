@@ -1,10 +1,3 @@
-
-# coding: utf-8
-
-# In[1]:
-
-
-# import all libraries needed
 import numpy as np
 import pandas as pd
 import pickle
@@ -45,12 +38,8 @@ class absenteeism_model():
         
         # take a data file (*.csv) and preprocess it in the same way as in the lectures
         def load_and_clean_data(self, data_file):
-            
-            # import the data
             df = pd.read_csv(data_file,delimiter=',')
-            # store the data in a new variable for later use
             self.df_with_predictions = df.copy()
-            # drop the 'ID' column
             df = df.drop(['ID'], axis = 1)
             # to preserve the code we've created in the previous section, we will add a column with 'NaN' strings
             df['Absenteeism Time in Hours'] = 'NaN'
@@ -97,7 +86,6 @@ class absenteeism_model():
             # create a new feature called 'Day of the Week'
             df['Day of the Week'] = df['Date'].apply(lambda x: x.weekday())
 
-
             # drop the 'Date' column from df
             df = df.drop(['Date'], axis = 1)
 
@@ -108,7 +96,6 @@ class absenteeism_model():
                                 'Pet', 'Absenteeism Time in Hours']
             df = df[column_names_upd]
 
-
             # map 'Education' variables; the result is a dummy
             df['Education'] = df['Education'].map({1:0, 2:1, 3:1, 4:1})
 
@@ -117,14 +104,8 @@ class absenteeism_model():
 
             # drop the original absenteeism time
             df = df.drop(['Absenteeism Time in Hours'],axis=1)
-            
-            # drop the variables we decide we don't need
             df = df.drop(['Day of the Week','Daily Work Load Average','Distance to Work'],axis=1)
-            
-            # we have included this line of code if you want to call the 'preprocessed data'
             self.preprocessed_data = df.copy()
-            
-            # we need this line so we can use it in the next functions
             self.data = self.scaler.transform(df)
     
         # a function which outputs the probability of a data point to be 1
